@@ -1,0 +1,26 @@
+{
+  "name": "@guillaumejchauveau/wdb-pack-assets-utils",
+  "version": "5.0.0-alpha.1",
+  "description": "Web-dev Boilerplate - Assets utils pack",
+  "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
+  "license": "ISC",
+  "main": "lib/index",
+  "types": "lib/index",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
+    "imagemin-webpack-plugin": "^2.4.2",
+    "url-loader": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1",
+    "@types/webpack": "^4.32.1",
+    "typescript": "^3.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

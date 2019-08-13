@@ -1,0 +1,24 @@
+{
+  "name": "@guillaumejchauveau/wdb-core",
+  "version": "5.0.0-alpha.1",
+  "description": "Web-dev Boilerplate - Core",
+  "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
+  "license": "ISC",
+  "main": "lib/index",
+  "types": "lib/index",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "comfygurator": "^1.0.0-alpha.8"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1",
+    "@types/webpack": "^4.32.1",
+    "typescript": "^3.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

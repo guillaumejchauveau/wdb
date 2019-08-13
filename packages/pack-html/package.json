@@ -1,0 +1,28 @@
+{
+  "name": "@guillaumejchauveau/wdb-pack-html",
+  "version": "5.0.0-alpha.1",
+  "description": "Web-dev Boilerplate - HTML pack",
+  "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
+  "license": "ISC",
+  "main": "lib/index",
+  "types": "lib/index",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
+    "extract-loader": "^3.1.0",
+    "file-loader": "^4.2.0",
+    "html-assets-injection-webpack-plugin": "^1.0.1",
+    "html-loader": "^0.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1",
+    "@types/webpack": "^4.32.1",
+    "typescript": "^3.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
