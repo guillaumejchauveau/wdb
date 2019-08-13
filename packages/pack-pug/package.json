@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-pug",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Pug pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -11,8 +11,8 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
-    "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.2",
     "pug-html-loader": "^1.1.5"
   },
   "devDependencies": {

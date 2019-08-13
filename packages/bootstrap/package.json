@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-bootstrap",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Bootstrap",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@guillaumejchauveau/friendly-errors-webpack-plugin-config": "^1.0.4",
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
     "clean-webpack-plugin": "^3.0.0",
     "eliminate-empty-chunk-file-webpack-plugin": "^1.1.1",
     "friendly-errors-webpack-plugin": "^1.7.0",

@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-css",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - CSS pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -11,7 +11,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
     "css-loader": "^3.2.0",
     "extract-css-chunks-webpack-plugin": "^4.6.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",

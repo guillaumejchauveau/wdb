@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-static",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Static pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -11,7 +11,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
     "copy-webpack-plugin": "^5.0.4"
   },
   "devDependencies": {

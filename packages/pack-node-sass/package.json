@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-node-sass",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Node Sass pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -11,8 +11,8 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
-    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.2",
     "sass-loader": "^7.2.0"
   },
   "devDependencies": {

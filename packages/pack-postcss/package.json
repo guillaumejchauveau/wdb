@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-postcss",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - PostCSS pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "ISC",
@@ -11,8 +11,8 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.1",
-    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.1",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.2",
     "postcss-loader": "^3.0.0"
   },
   "devDependencies": {
