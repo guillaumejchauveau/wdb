@@ -1,0 +1,66 @@
+@import '../abstracts/variables';
+
+//
+// Typography.
+//
+
+// Body.
+//
+
+body {
+  background-color: $component__aux-color_secondary;
+  color: $text__color;
+  font-family: $text__font-family_base;
+  font-size: $text__font-size_base;
+  font-weight: $text__font-weight_base;
+  line-height: $text__line-height_base;
+}
+
+// Headings.
+//
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: $headings__color;
+  font-family: $headings__font-family;
+  font-weight: $headings__font-weight;
+  line-height: $headings__line-height;
+}
+
+h1 {
+  font-size: $headings__font-size_level-1;
+}
+
+h2 {
+  font-size: $headings__font-size_level-2;
+}
+
+h3 {
+  font-size: $headings__font-size_level-3;
+}
+
+h4 {
+  font-size: $headings__font-size_level-4;
+}
+
+h5 {
+  font-size: $headings__font-size_level-5;
+}
+
+h6 {
+  font-size: $headings__font-size_level-6;
+}
+
+// Paragraphs.
+//
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow-wrap: break-word;
+}

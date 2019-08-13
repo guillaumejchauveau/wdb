@@ -1,0 +1,5 @@
+declare module 'eliminate-empty-chunk-file-webpack-plugin'
+declare module 'clean-webpack-plugin'
+declare module 'friendly-errors-webpack-plugin'
+declare module 'terser-webpack-plugin'
+declare module '@guillaumejchauveau/friendly-errors-webpack-plugin-config'

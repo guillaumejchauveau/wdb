@@ -1,0 +1,23 @@
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+//
+// Typography.
+//
+@import 'base/typography';
+
+html {
+  position: relative;
+  min-height: 100%;
+  box-sizing: border-box;
+  font-size: $text__font-size_root-xs;
+
+  @include media-breakpoint-up('md') {
+    font-size: $text__font-size_root-md;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}

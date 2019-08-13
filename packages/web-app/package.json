@@ -1,5 +1,5 @@
 {
-  "name": "@guillaumejchauveau/web-dev-boilerplate-web-app",
+  "name": "@guillaumejchauveau/wdb-web-app",
   "version": "5.0.0-alpha.1",
   "description": "Web-dev Boilerplate - Web App",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
@@ -35,5 +35,6 @@
     "presets": [
       "@guillaumejchauveau/front"
     ]
-  }
+  },
+  "gitHead": "da464acfa8ad8e4c422e63b0ad915913442d6a4b"
 }

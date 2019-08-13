@@ -1,0 +1,13 @@
+{
+  "name": "@guillaumejchauveau/wdb",
+  "version": "5.0.0-alpha.0",
+  "description": "Web-dev Boilerplate",
+  "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
+  "license": "ISC",
+  "scripts": {
+    "postinstall": "lerna bootstrap"
+  },
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  }
+}
