@@ -8,13 +8,13 @@ import { extensionsAsRegex } from '@guillaumejchauveau/wdb-core/lib/utils'
 import path from 'path'
 import ImageminPlugin from 'imagemin-webpack-plugin'
 
-const pack: Pack = configurator => {
-  configurator.options.addProperty(new Property('paths.img.extensions'))
-  configurator.options.addProperty(new Property('paths.img.src', path.isAbsolute))
-  configurator.options.addProperty(new Property('paths.img.output'))
-  configurator.options.addProperty(new Property('paths.img.publicPath'))
-  configurator.options.addProperty(new Property('paths.img.embeddedMaxSize'))
-  configurator.addModuleRulePatcher('IMG', new ComputedValue(c => {
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('paths.img.extensions'))
+  generator.options.addProperty(new Property('paths.img.src', path.isAbsolute))
+  generator.options.addProperty(new Property('paths.img.output'))
+  generator.options.addProperty(new Property('paths.img.publicPath'))
+  generator.options.addProperty(new Property('paths.img.embeddedMaxSize'))
+  generator.addModuleRulePatcher('IMG', new ComputedValue(c => {
     return {
       test: new RegExp(extensionsAsRegex(c.options.paths.img.extensions)),
       loader: 'url-loader',
@@ -26,19 +26,19 @@ const pack: Pack = configurator => {
       }
     }
   }))
-  configurator.options.addProperty(new Property('optimize.imagemin'))
-  configurator.addPluginPatcher('Imagemin', new ComputedValue(c => {
+  generator.options.addProperty(new Property('optimize.imagemin'))
+  generator.addPluginPatcher('Imagemin', new ComputedValue(c => {
     if (c.context.mode === MODES.PROD) {
       return new ImageminPlugin(c.options.optimize.imagemin)
     }
   }))
 
-  configurator.options.addProperty(new Property('paths.font.extensions'))
-  configurator.options.addProperty(new Property('paths.font.src', path.isAbsolute))
-  configurator.options.addProperty(new Property('paths.font.output'))
-  configurator.options.addProperty(new Property('paths.font.publicPath'))
-  configurator.options.addProperty(new Property('paths.font.embeddedMaxSize'))
-  configurator.addModuleRulePatcher('FONT', new ComputedValue(c => {
+  generator.options.addProperty(new Property('paths.font.extensions'))
+  generator.options.addProperty(new Property('paths.font.src', path.isAbsolute))
+  generator.options.addProperty(new Property('paths.font.output'))
+  generator.options.addProperty(new Property('paths.font.publicPath'))
+  generator.options.addProperty(new Property('paths.font.embeddedMaxSize'))
+  generator.addModuleRulePatcher('FONT', new ComputedValue(c => {
     return {
       test: new RegExp(extensionsAsRegex(c.options.paths.font.extensions)),
       loader: 'url-loader',

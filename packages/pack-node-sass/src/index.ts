@@ -1,11 +1,12 @@
-import { ComputedValue, Pack } from '@guillaumejchauveau/wdb-core'
+import { ComputedValue, Pack, Property } from '@guillaumejchauveau/wdb-core'
 import { CSS_SYNTAX } from '@guillaumejchauveau/wdb-pack-css'
 
 export const SCSS_SYNTAX = 'scss'
 
-const pack: Pack = configurator => {
-  configurator.addSyntax(SCSS_SYNTAX)
-  configurator.addSyntaxLoaderPatcher(
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('sassLoader'))
+  generator.addSyntax(SCSS_SYNTAX)
+  generator.addSyntaxLoaderPatcher(
     SCSS_SYNTAX,
     new ComputedValue(c => {
       const cssLoaders = []
@@ -22,9 +23,7 @@ const pack: Pack = configurator => {
       return [
         ...cssLoaders, {
           loader: 'sass-loader',
-          options: {
-
-          }
+          options: c.options.sassLoader
         }
       ]
     })

@@ -3,15 +3,15 @@
   "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Core",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
-  "license": "ISC",
-  "main": "lib/index",
-  "types": "lib/index",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w"
   },
   "dependencies": {
-    "comfygurator": "^1.0.0-alpha.8"
+    "comfygurator": "^1.0.0-alpha.9"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
@@ -20,6 +20,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "da464acfa8ad8e4c422e63b0ad915913442d6a4b"
+  }
 }

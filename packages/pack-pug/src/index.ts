@@ -1,11 +1,12 @@
-import { ComputedValue, Pack } from '@guillaumejchauveau/wdb-core'
+import { ComputedValue, Pack, Property } from '@guillaumejchauveau/wdb-core'
 import { HTML_SYNTAX } from '@guillaumejchauveau/wdb-pack-html'
 
 export const PUG_SYNTAX = 'pug'
 
-const pack: Pack = configurator => {
-  configurator.addSyntax(PUG_SYNTAX)
-  configurator.addSyntaxLoaderPatcher(
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('pugHTMLLoader'))
+  generator.addSyntax(PUG_SYNTAX)
+  generator.addSyntaxLoaderPatcher(
     PUG_SYNTAX,
     new ComputedValue(c => {
       const htmlLoaders = []
@@ -21,7 +22,8 @@ const pack: Pack = configurator => {
       }
       return [
         ...htmlLoaders, {
-          loader: 'pug-html-loader'
+          loader: 'pug-html-loader',
+          options: c.options.pugHTMLLoader
         }
       ]
     })

@@ -1,9 +1,20 @@
-import { ComputedValue, Pack, JAVASCRIPT_SYNTAX } from '@guillaumejchauveau/wdb-core'
+import {
+  ComputedValue,
+  Pack,
+  JAVASCRIPT_SYNTAX,
+  Property
+} from '@guillaumejchauveau/wdb-core'
 
-const pack: Pack = configurator => {
-  configurator.addSyntaxLoaderPatcher(
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('babelLoader'))
+  generator.addSyntaxLoaderPatcher(
     JAVASCRIPT_SYNTAX,
-    new ComputedValue(() => 'babel-loader')
+    new ComputedValue(c => {
+      return {
+        loader: 'babel-loader',
+        options: c.options.babelLoader
+      }
+    })
   )
 }
 

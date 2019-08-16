@@ -3,9 +3,9 @@
   "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - CSS pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
-  "license": "ISC",
-  "main": "lib/index",
-  "types": "lib/index",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w"
@@ -14,16 +14,16 @@
     "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
     "css-loader": "^3.2.0",
     "extract-css-chunks-webpack-plugin": "^4.6.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "webpack": "^4.39.1"
+    "optimize-css-assets-webpack-plugin": "^5.0.3"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
+    "@types/optimize-css-assets-webpack-plugin": "^1.3.4",
     "@types/webpack": "^4.32.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "da464acfa8ad8e4c422e63b0ad915913442d6a4b"
+  }
 }

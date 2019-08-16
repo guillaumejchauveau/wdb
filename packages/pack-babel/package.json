@@ -3,16 +3,17 @@
   "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Babel pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
-  "license": "ISC",
-  "main": "lib/index",
-  "types": "lib/index",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w"
   },
   "dependencies": {
     "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
-    "babel-loader": "^8.0.6"
+    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.5.5"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
@@ -21,6 +22,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "da464acfa8ad8e4c422e63b0ad915913442d6a4b"
+  }
 }

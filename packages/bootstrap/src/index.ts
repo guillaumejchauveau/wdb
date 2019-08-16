@@ -1,141 +1,124 @@
 #!/usr/bin/env node
 
-import { Configurator, Pack } from '@guillaumejchauveau/wdb-core'
+import {
+  ConfigurationGenerator,
+  Pack,
+  MODES
+} from '@guillaumejchauveau/wdb-core'
 import basePack from './pack-base'
 import readPkg from 'read-pkg'
 import webpack from 'webpack'
+import WebpackDevServer from 'webpack-dev-server'
+import rimraf from 'rimraf'
 
-const config = new Configurator()
-basePack(config)
+import cosmiconfig from 'cosmiconfig'
+import yargs from 'yargs'
 
-let packNames = Object.getOwnPropertyNames(<any>readPkg.sync().devDependencies)
-  .filter(packageName => packageName.startsWith('@guillaumejchauveau/wdb-pack'))
+const MODULE_NAME = 'wdb'
 
-for (const packName of packNames) {
-  const packPath = require.resolve(
-    packName,
-    {
-      paths: [process.cwd()]
+function createConfigurationGenerator (mode: MODES): ConfigurationGenerator {
+  const generator = new ConfigurationGenerator(mode)
+  basePack(generator)
+  let packNames = Object.getOwnPropertyNames(<any>readPkg.sync().devDependencies)
+    .filter(packageName => packageName.match(/^@.*\/wdb-pack-.*$/))
+
+  for (const packName of packNames) {
+    const packPath = require.resolve(
+      packName,
+      {
+        paths: [process.cwd()]
+      }
+    )
+    const pack = <Pack>require(packPath).default
+    pack(generator)
+  }
+
+  const optionsExplorer = cosmiconfig(MODULE_NAME)
+  const result = optionsExplorer.searchSync()
+  if (!result) {
+    throw new Error('No configuration provided for WDB')
+  }
+  const userOptions = result.config
+  const optionsSets: object[] = []
+  if (userOptions.hasOwnProperty('presets')) {
+    if (!Array.isArray(userOptions.presets)) {
+      throw new Error('WDB configuration error: "presets" must be an array')
     }
-  )
-  const pack = <Pack>require(packPath).default
-  pack(config)
+    for (const presetName of userOptions.presets) {
+      const presetPath = require.resolve(
+        presetName,
+        {
+          paths: [process.cwd()]
+        }
+      )
+      optionsSets.push(require(presetPath))
+    }
+    delete userOptions.presets
+  }
+  optionsSets.push(userOptions)
+
+  for (const optionSet of optionsSets.reverse()) {
+    generator.options.hydrate(optionSet, true)
+  }
+
+  return generator
 }
 
-config.options.hydrate({
-  syntaxes: {
-    css: {
-      extensions: ['css']
-    },
-    scss: {
-      extensions: ['scss']
-    },
-    html: {
-      extensions: ['html']
-    },
-    pug: {
-      extensions: ['pug']
-    }
-  },
-  paths: {
-    output: {
-      path: '{root}/build',
-      publicPath: './'
-    },
-    files: [
-      {
-        syntaxes: ['css', 'scss'],
-        src: '{root}/src/css',
-        output: 'css/[name].css',
-      },
-      {
-        syntaxes: ['html', 'pug'],
-        src: '{root}/src',
-        output: '[name].html'
-      }
-    ],
-    staticCopy: {
-      src: '{root}/src/static',
-      output: '{root}/build'
-    },
-    img: {
-      extensions: ['png', 'jpg', 'gif', 'svg'],
-      src: '{root}/src/img',
-      output: 'img/[path][name].[ext]',
-      publicPath: './',
-      embeddedMaxSize: 5000
-    },
-    font: {
-      extensions: ['woff', 'woff2', 'eot', 'ttf', 'otf'],
-      src: '{root}/src/font',
-      output: 'font/[path][name].[ext]',
-      publicPath: './',
-      embeddedMaxSize: 5000
-    }
-  },
-  entry: {
-    app: ['index.js', 'common.scss', 'index.pug']
-  },
-  optimize: {
-    minify: true,
-    cssnano: {
-      preset: [
-        'default',
-        {
-          discardComments: {
-            removeAll: true
-          }
-        }
-      ]
-    },
-    htmlminifier: {
-      collapseBooleanAttributes: true,
-      collapseWhitespace: true,
-      conservativeCollapse: false,
-      minifyCSS: true,
-      minifyJS: true,
-      processConditionalComments: true,
-      quoteCharacter: '"',
-      removeComments: true,
-      removeEmptyAttributes: true,
-      removeOptionalTags: false,
-      removeRedundantAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true
-    },
-    imagemin: {
-      gifsicle: {
-        interlaced: true,
-        optimizationLevel: 3
-      },
-      jpegtran: {
-        progressive: true
-      },
-      optipng: {
-        optimizationLevel: 5
-      }
-    }
-  }
-})
-let wConfig = config.compileConfiguration()
+const statsOptions = {
+  colors: true,
+  hash: false,
+  version: false,
+  timings: true,
+  builtAt: false,
+  assets: true,
+  entrypoints: false,
+  modules: false,
+  errors: true,
+  moduleTrace: false,
+  warnings: true
+}
 
-webpack(wConfig, (err, stats) => {
-  if (err) {
-    throw err
-  }
-  process.stdout.write(
-    stats.toString({
-      colors: true,
-      hash: false,
-      version: false,
-      timings: true,
-      builtAt: false,
-      assets: true,
-      entrypoints: false,
-      modules: false,
-      errors: true,
-      moduleTrace: false,
-      warnings: true
-    }) + '\n'
+yargs.scriptName(MODULE_NAME)
+  .usage('Usage: $0 <command> [options]')
+  .command('build', 'Builds the project in production mode', yargs => yargs,
+    () => {
+      const webpackConfiguration = createConfigurationGenerator(MODES.PROD).compileConfiguration()
+      const compiler = webpack(webpackConfiguration)
+      compiler.run((err, stats) => {
+        if (err) {
+          throw err
+        }
+        process.stdout.write(stats.toString(statsOptions) + '\n')
+      })
+    }
   )
-})
+  .command('dev', 'Builds the project in development mode', yargs => yargs,
+    () => {
+      const webpackConfigurator = createConfigurationGenerator(MODES.DEV)
+      const options = webpackConfigurator.getComputedOptions()
+      const webpackConfiguration = webpackConfigurator.compileConfiguration()
+      const compiler = webpack(webpackConfiguration)
+      const server = new WebpackDevServer(compiler, {
+        contentBase: options.paths.output.path,
+        hot: true,
+        historyApiFallback: true,
+        quiet: false,
+        noInfo: false,
+        //publicPath: options.paths.output.publicPath,
+        stats: statsOptions
+      })
+
+      server.listen(8080, 'localhost')
+    }
+  )
+  .command('clean', 'Cleans generated files', yargs => yargs,
+    () => {
+      const webpackConfigurator = createConfigurationGenerator(MODES.PROD)
+      const options = webpackConfigurator.getComputedOptions()
+      rimraf.sync(options.paths.output.path)
+    }
+  )
+  .alias('h', 'help')
+  .alias('v', 'version')
+  .help()
+  .argv

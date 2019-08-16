@@ -1,14 +1,19 @@
-import { ComputedValue, Pack, PatcherContext, Property } from '@guillaumejchauveau/wdb-core'
+import {
+  ComputedValue,
+  Pack,
+  PatcherContext,
+  Property
+} from '@guillaumejchauveau/wdb-core'
 
 import path from 'path'
 
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
-const pack: Pack = configurator => {
-  configurator.options.addProperty(new Property('paths.staticCopy.src', path.isAbsolute))
-  configurator.options.addProperty(new Property('paths.staticCopy.output', path.isAbsolute))
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('paths.staticCopy.src', path.isAbsolute))
+  generator.options.addProperty(new Property('paths.staticCopy.output', path.isAbsolute))
 
-  configurator.addPluginPatcher(
+  generator.addPluginPatcher(
     'StaticCopy',
     new ComputedValue((c: PatcherContext) => {
       return new CopyWebpackPlugin(

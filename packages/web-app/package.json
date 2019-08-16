@@ -3,38 +3,37 @@
   "version": "5.0.0-alpha.2",
   "description": "Web-dev Boilerplate - Web App",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
-  "main": "build/js/index.js",
+  "license": "MIT",
   "scripts": {
-    "build": "wdb",
-    "clean": "del-cli build/* !build/empty"
+    "build": "wdb build",
+    "dev": "wdb dev",
+    "clean": "wdb clean"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@guillaumejchauveau/babel-preset-front": "^1.0.2",
-    "@guillaumejchauveau/node-sass-config": "^1.0.4",
-    "@guillaumejchauveau/postcss-config": "^1.0.4",
     "@guillaumejchauveau/wdb-bootstrap": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-assets-utils": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-babel": "^5.0.0-alpha.2",
     "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.2",
     "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.2",
     "@guillaumejchauveau/wdb-pack-node-sass": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-pack-postcss": "^5.0.0-alpha.2",
     "@guillaumejchauveau/wdb-pack-pug": "^5.0.0-alpha.2",
     "@guillaumejchauveau/wdb-pack-static": "^5.0.0-alpha.2",
-    "del-cli": "^2.0.0",
-    "node-sass": "^4.12.0",
-    "postcss": "^7.0.17",
-    "pug": "^2.0.4"
+    "@guillaumejchauveau/wdb-preset-web-app": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "browserslist": [
-    "> 1%",
-    "not OperaMini all"
-  ],
-  "babel": {
+  "wdb": {
     "presets": [
-      "@guillaumejchauveau/front"
-    ]
-  },
-  "gitHead": "da464acfa8ad8e4c422e63b0ad915913442d6a4b"
+      "@guillaumejchauveau/wdb-preset-web-app"
+    ],
+    "entry": {
+      "app": [
+        "index.js",
+        "common.scss",
+        "index.pug"
+      ]
+    }
+  }
 }

@@ -13,10 +13,10 @@ import ExtractCssChunkWebpackPlugin from 'extract-css-chunks-webpack-plugin'
 export const CSS_SYNTAX = 'css'
 export const CSS_PRE_LOADERS: ComputedValue<RuleSetUseItem, PatcherContext>[] = []
 
-const pack: Pack = configurator => {
-  configurator.options.addProperty(new Property('optimize.cssnano'))
-  configurator.addSyntax(CSS_SYNTAX)
-  configurator.addSyntaxLoaderPatcher(
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('optimize.cssnano'))
+  generator.addSyntax(CSS_SYNTAX)
+  generator.addSyntaxLoaderPatcher(
     CSS_SYNTAX,
     new ComputedValue(c => [
       ExtractCssChunkWebpackPlugin.loader,
@@ -24,7 +24,7 @@ const pack: Pack = configurator => {
       ...CSS_PRE_LOADERS.map(value => value.compute(c))
     ])
   )
-  configurator.addMinimizerPatcher(
+  generator.addMinimizerPatcher(
     CSS_SYNTAX,
     new ComputedValue(c => {
       return c.options.optimize.minimize ? new OptimizeCssAssetsWebpackPlugin({
@@ -32,7 +32,7 @@ const pack: Pack = configurator => {
       }) : undefined
     })
   )
-  configurator.addPluginPatcher('ExtractCSSChunks', new ComputedValue(c => {
+  generator.addPluginPatcher('ExtractCSSChunks', new ComputedValue(c => {
     return new ExtractCssChunkWebpackPlugin({
       filename: Options.getSyntaxFileTypeOptions(CSS_SYNTAX, c.options).output
     })

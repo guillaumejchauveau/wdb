@@ -13,9 +13,8 @@ import path from 'path'
 import { extensionsAsRegex } from './utils'
 import { StringTemplateContext } from 'comfygurator/lib/StringTemplateValue'
 import { Tapable } from 'tapable'
-import HydratedPropertyError from 'comfygurator/lib/HydratedPropertyError'
 
-export type Pack = (configurator: Configurator) => void
+export type Pack = (generator: ConfigurationGenerator) => void
 
 export { ComputedValue, Property }
 
@@ -24,14 +23,14 @@ export enum MODES {
   PROD = 'production'
 }
 
-export interface ConfiguratorContext extends StringTemplateContext {
+export interface ConfigurationGeneratorContext extends StringTemplateContext {
   root: string,
   mode: MODES
 }
 
 export interface PatcherContext {
   options: any,
-  context: ConfiguratorContext,
+  context: ConfigurationGeneratorContext,
   syntaxLoaderPatchers: {
     [syntaxName: string]: SyntaxLoaderPatcher[]
   }
@@ -53,7 +52,7 @@ export interface SyntaxOptions {
 }
 
 export namespace Options {
-  export function getSyntaxFileTypeOptions (syntaxName: string, options: Options): FileTypeOptions {
+  export function getSyntaxFileTypeOptions (syntaxName: string, options: CoreOptions): FileTypeOptions {
     for (const fileTypeOptions of Object.values(options.paths.files)) {
       if (fileTypeOptions.syntaxes.includes(syntaxName)) {
         return fileTypeOptions
@@ -63,7 +62,10 @@ export namespace Options {
   }
 }
 
-export interface Options {
+interface CoreOptions {
+  syntaxes: {
+    [syntaxName: string]: SyntaxOptions
+  },
   paths: {
     output: {
       path: string,
@@ -79,15 +81,12 @@ export interface Options {
   },
   entry: {
     [chunkName: string]: string[]
-  },
-  syntaxes: {
-    [syntaxName: string]: SyntaxOptions
   }
 }
 
 export const JAVASCRIPT_SYNTAX = 'js'
 
-export class Configurator {
+export class ConfigurationGenerator {
   private readonly moduleRulePatchers: {
     [name: string]: ModuleRulePatcher
   }
@@ -101,9 +100,10 @@ export class Configurator {
     [syntaxName: string]: SyntaxLoaderPatcher[]
   }
   readonly options: Schema
-  private readonly defaultOptions: object[]
+  readonly mode: MODES
 
-  constructor () {
+  constructor (mode: MODES) {
+    this.mode = mode
     this.moduleRulePatchers = {}
     this.pluginPatchers = {}
     this.minimizerPatchers = {}
@@ -148,11 +148,6 @@ export class Configurator {
         }
       }
     ])
-    this.defaultOptions = []
-  }
-
-  addDefaultOptions (options: object) {
-    this.defaultOptions.push(options)
   }
 
   addSyntax (syntaxName: string) {
@@ -219,31 +214,32 @@ export class Configurator {
     this.syntaxLoaderPatchers[syntaxName].push(patcher)
   }
 
-  compileConfiguration (): Configuration {
-    const context: ConfiguratorContext = {
+  getContext (): ConfigurationGeneratorContext {
+    return {
       root: process.cwd(),
-      mode: MODES.PROD
+      mode: this.mode
     }
+  }
 
-    for (const defaultOptions of this.defaultOptions) {
-      try {
-        this.options.hydrate(defaultOptions)
-      } catch (e) {
-        if (!(e instanceof HydratedPropertyError)) {
-          throw e
-        }
-      }
-    }
-    const options = <Options>this.options.compute(context)
+  getComputedOptions (): CoreOptions {
+    const context = this.getContext()
+
+    const options = <CoreOptions>this.options.compute(context)
     for (const fileType of Object.getOwnPropertyNames(options.paths.files)) {
       if (options.paths.files[fileType].syntaxes === undefined) {
         options.paths.files[fileType].syntaxes = []
       }
     }
+    return options
+  }
+
+  compileConfiguration (): Configuration {
+    const context = this.getContext()
+    const options = this.getComputedOptions()
 
     const config: Configuration = {
       context: context.root,
-      target: <any>options.webpack.target,
+      target: <any>options.webpack.target, // TODO: ?
       mode: context.mode,
       entry: undefined,
       output: {

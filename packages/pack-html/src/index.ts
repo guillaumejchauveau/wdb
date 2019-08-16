@@ -10,10 +10,11 @@ import HTMLAssetsInjectionPlugin from 'html-assets-injection-webpack-plugin'
 
 export const HTML_SYNTAX = 'html'
 
-const pack: Pack = configurator => {
-  configurator.options.addProperty(new Property('optimize.htmlminifier'))
-  configurator.addSyntax(HTML_SYNTAX)
-  configurator.addSyntaxLoaderPatcher(
+const pack: Pack = generator => {
+  generator.options.addProperty(new Property('optimize.htmlminifier'))
+  generator.options.addProperty(new Property('htmlLoader.attrs'))
+  generator.addSyntax(HTML_SYNTAX)
+  generator.addSyntaxLoaderPatcher(
     HTML_SYNTAX,
     new ComputedValue(c => [
       {
@@ -32,14 +33,14 @@ const pack: Pack = configurator => {
       {
         loader: 'html-loader',
         options: {
-          attrs: ['img:src'],
+          attrs: c.options.htmlLoader.attrs,
           ...c.options.optimize.htmlminifier,
           minimize: c.context.mode === MODES.PROD && c.options.minimize
         }
       }
     ])
   )
-  configurator.addPluginPatcher('HTMLAssetsInjectionPlugin', new ComputedValue(c => {
+  generator.addPluginPatcher('HTMLAssetsInjectionPlugin', new ComputedValue(c => {
     return new HTMLAssetsInjectionPlugin()
   }))
 }

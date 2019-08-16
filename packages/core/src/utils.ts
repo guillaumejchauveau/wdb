@@ -1,3 +1,3 @@
-export function extensionsAsRegex(extensions: string[]): string {
+export function extensionsAsRegex (extensions: string[]): string {
   return `\\.(${extensions.join('|')})$`
 }
