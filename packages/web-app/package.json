@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-web-app",
-  "version": "5.0.0-alpha.2",
+  "version": "5.0.0-alpha.3",
   "description": "Web-dev Boilerplate - Web App",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "MIT",
@@ -10,15 +10,15 @@
     "clean": "wdb clean"
   },
   "devDependencies": {
-    "@guillaumejchauveau/wdb-bootstrap": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-assets-utils": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-babel": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-node-sass": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-postcss": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-pug": "^5.0.0-alpha.2",
-    "@guillaumejchauveau/wdb-pack-static": "^5.0.0-alpha.2",
+    "@guillaumejchauveau/wdb-bootstrap": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-assets-utils": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-babel": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-node-sass": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-postcss": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-pug": "^5.0.0-alpha.3",
+    "@guillaumejchauveau/wdb-pack-static": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-preset-web-app": "^1.0.1"
   },
   "publishConfig": {

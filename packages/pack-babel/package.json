@@ -1,6 +1,6 @@
 {
   "name": "@guillaumejchauveau/wdb-pack-babel",
-  "version": "5.0.0-alpha.2",
+  "version": "5.0.0-alpha.3",
   "description": "Web-dev Boilerplate - Babel pack",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.2",
-    "babel-loader": "^8.0.6",
-    "@babel/core": "^7.5.5"
+    "@babel/core": "^7.5.5",
+    "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.3",
+    "babel-loader": "^8.0.6"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
