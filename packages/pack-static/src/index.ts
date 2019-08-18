@@ -26,12 +26,7 @@ const pack: Pack = generator => {
             to: c.options.paths.staticCopy.output,
             context: c.options.paths.staticCopy.src
           }
-        ],
-        {
-          ignore: [
-            'empty' // Ignore placeholder files.
-          ]
-        }
+        ]
       )
     })
   )

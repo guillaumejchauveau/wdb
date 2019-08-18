@@ -12,7 +12,10 @@ const pack: Pack = generator => {
     new ComputedValue(c => {
       return {
         loader: 'babel-loader',
-        options: c.options.babelLoader
+        options: {
+          sourceMaps: 'inline',
+          ...c.options.babelLoader
+        }
       }
     })
   )

@@ -20,7 +20,7 @@ const pack: Pack = generator => {
       {
         loader: 'file-loader',
         options: {
-          context: Options.getSyntaxFileTypeOptions(HTML_SYNTAX, c.options).src,
+          context: c.options.paths.src,
           name: Options.getSyntaxFileTypeOptions(HTML_SYNTAX, c.options).output
         }
       },
@@ -35,7 +35,7 @@ const pack: Pack = generator => {
         options: {
           attrs: c.options.htmlLoader.attrs,
           ...c.options.optimize.htmlminifier,
-          minimize: c.context.mode === MODES.PROD && c.options.minimize
+          minimize: c.context.mode === MODES.PROD
         }
       }
     ])

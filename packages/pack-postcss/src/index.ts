@@ -6,7 +6,10 @@ const pack: Pack = generator => {
   CSS_PRE_LOADERS.push(new ComputedValue(c => {
     return {
       loader: 'postcss-loader',
-      options: c.options.postCSSLoader
+      options: {
+        sourceMap: 'inline',
+        ...c.options.postCSSLoader
+      }
     }
   }))
 }

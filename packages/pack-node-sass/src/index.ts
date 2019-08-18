@@ -23,7 +23,10 @@ const pack: Pack = generator => {
       return [
         ...cssLoaders, {
           loader: 'sass-loader',
-          options: c.options.sassLoader
+          options: {
+            sourceMap: true,
+            ...c.options.sassLoader
+          }
         }
       ]
     })

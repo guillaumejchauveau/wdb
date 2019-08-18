@@ -2,8 +2,7 @@ import {
   ComputedValue,
   JAVASCRIPT_SYNTAX,
   MODES,
-  Pack,
-  Property
+  Pack
 } from '@guillaumejchauveau/wdb-core'
 
 import webpack from 'webpack'
@@ -25,7 +24,6 @@ const pack: Pack = generator => {
       })
     })
   )
-  generator.options.addProperty(new Property('optimize.minimize'))
   generator.addSyntax(JAVASCRIPT_SYNTAX)
   generator.addMinimizerPatcher(JAVASCRIPT_SYNTAX, new ComputedValue(c => new TerserWebpackPlugin()))
   generator.addPluginPatcher(

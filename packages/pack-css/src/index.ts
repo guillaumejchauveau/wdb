@@ -3,12 +3,14 @@ import {
   Pack,
   Property,
   Options,
-  PatcherContext
+  PatcherContext,
+  MODES
 } from '@guillaumejchauveau/wdb-core'
 import { RuleSetUseItem } from 'webpack'
 
 import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
 import ExtractCssChunkWebpackPlugin from 'extract-css-chunks-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 export const CSS_SYNTAX = 'css'
 export const CSS_PRE_LOADERS: ComputedValue<RuleSetUseItem, PatcherContext>[] = []
@@ -19,21 +21,32 @@ const pack: Pack = generator => {
   generator.addSyntaxLoaderPatcher(
     CSS_SYNTAX,
     new ComputedValue(c => [
-      ExtractCssChunkWebpackPlugin.loader,
-      'css-loader',
-      ...CSS_PRE_LOADERS.map(value => value.compute(c))
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: c.context.mode === MODES.DEV
+        }
+      },
+      ...CSS_PRE_LOADERS.map(value => value.compute(c)),
+      {
+        loader: 'resolve-url-loader',
+        options: {
+          sourceMap: true
+        }
+      }
     ])
   )
   generator.addMinimizerPatcher(
     CSS_SYNTAX,
     new ComputedValue(c => {
-      return c.options.optimize.minimize ? new OptimizeCssAssetsWebpackPlugin({
+      return new OptimizeCssAssetsWebpackPlugin({
         cssProcessorOptions: c.options.optimize.cssnano
-      }) : undefined
+      })
     })
   )
   generator.addPluginPatcher('ExtractCSSChunks', new ComputedValue(c => {
-    return new ExtractCssChunkWebpackPlugin({
+    return new MiniCssExtractPlugin({
       filename: Options.getSyntaxFileTypeOptions(CSS_SYNTAX, c.options).output
     })
   }))

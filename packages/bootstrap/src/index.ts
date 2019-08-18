@@ -82,7 +82,7 @@ yargs.scriptName(MODULE_NAME)
   .usage('Usage: $0 <command> [options]')
   .command('build', 'Builds the project in production mode', yargs => yargs,
     () => {
-      const webpackConfiguration = createConfigurationGenerator(MODES.PROD).compileConfiguration()
+      const webpackConfiguration = createConfigurationGenerator(MODES.DEV).compileConfiguration()
       const compiler = webpack(webpackConfiguration)
       compiler.run((err, stats) => {
         if (err) {

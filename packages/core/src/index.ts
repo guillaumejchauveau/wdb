@@ -43,7 +43,6 @@ export type SyntaxLoaderPatcher = ComputedValue<RuleSetUseItem[] | RuleSetUseIte
 
 export interface FileTypeOptions {
   syntaxes: string[]
-  src: string,
   output: string
 }
 
@@ -67,6 +66,7 @@ interface CoreOptions {
     [syntaxName: string]: SyntaxOptions
   },
   paths: {
+    src: string,
     output: {
       path: string,
       publicPath: string
@@ -77,7 +77,8 @@ interface CoreOptions {
     }
   },
   webpack: {
-    target?: string
+    target?: string,
+    sourceMaps: boolean
   },
   entry: {
     [chunkName: string]: string[]
@@ -114,8 +115,11 @@ export class ConfigurationGenerator {
         typeChecker: path.isAbsolute
       },
       {
-        key: 'paths.output.publicPath',
-        typeChecker: request => !path.isAbsolute(request)
+        key: 'paths.src',
+        typeChecker: path.isAbsolute
+      },
+      {
+        key: 'paths.output.publicPath'
       },
       {
         key: 'paths.files.*.syntaxes',
@@ -123,18 +127,15 @@ export class ConfigurationGenerator {
         required: false
       },
       {
-        key: 'paths.files.*.src',
-        typeChecker: path.isAbsolute,
-        required: false
-      },
-      {
         key: 'paths.files.*.output',
-        typeChecker: request => !path.isAbsolute(request),
         required: false
       },
       {
         key: 'webpack.target',
-        required: false
+        required: false // TODO
+      },
+      {
+        key: 'webpack.sourceMaps'
       },
       {
         key: 'entry',
@@ -253,8 +254,9 @@ export class ConfigurationGenerator {
       plugins: [],
       optimization: {
         minimizer: [],
-        noEmitOnErrors: context.mode === MODES.PROD
-      }
+        noEmitOnErrors: context.mode === MODES.DEV
+      },
+      devtool: context.mode === MODES.DEV ? 'eval-source-map' : false
     }
 
     const entry: Entry = {}
@@ -266,22 +268,12 @@ export class ConfigurationGenerator {
         let absoluteModulePath = modulePath
         // Automatic path completion.
         if (!path.isAbsolute(modulePath)) {
-          const moduleExtension = path.extname(modulePath).substr(1)
-          // Looks for a corresponding syntax.
-          for (const syntaxName of Object.getOwnPropertyNames(options.syntaxes)) {
-            if (options.syntaxes[syntaxName].extensions.includes(moduleExtension)) {
-              absoluteModulePath = path.join(
-                Options.getSyntaxFileTypeOptions(syntaxName, options).src,
-                modulePath
-              )
-              break
-            }
-          }
-          if (!path.isAbsolute(absoluteModulePath)) {
-            throw new Error(`Module extension '${moduleExtension}' does not have a corresponding syntax`)
-          }
-          (<string[]>entry[chunkName]).push(absoluteModulePath)
+          absoluteModulePath = path.join(
+            options.paths.src,
+            modulePath
+          )
         }
+        (<string[]>entry[chunkName]).push(absoluteModulePath)
       }
     }
 

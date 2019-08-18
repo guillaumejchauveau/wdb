@@ -19,7 +19,7 @@
     "@guillaumejchauveau/wdb-pack-postcss": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-pug": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-static": "^5.0.0-alpha.3",
-    "@guillaumejchauveau/wdb-preset-web-app": "^1.0.1"
+    "@guillaumejchauveau/wdb-preset-web-app": "^1.1.0"
   },
   "publishConfig": {
     "access": "public"
@@ -30,8 +30,8 @@
     ],
     "entry": {
       "app": [
-        "index.js",
-        "common.scss",
+        "js/index.js",
+        "css/common.scss",
         "index.pug"
       ]
     }
