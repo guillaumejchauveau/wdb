@@ -12,14 +12,24 @@
   "devDependencies": {
     "@guillaumejchauveau/wdb-bootstrap": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-assets-utils": "^5.0.0-alpha.3",
-    "@guillaumejchauveau/wdb-pack-babel": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-css": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-html": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-node-sass": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-postcss": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-pug": "^5.0.0-alpha.3",
     "@guillaumejchauveau/wdb-pack-static": "^5.0.0-alpha.3",
-    "@guillaumejchauveau/wdb-preset-web-app": "^1.1.0"
+    "@guillaumejchauveau/wdb-preset-web-app": "^1.1.0",
+    "url-loader": "^4.1.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "resolve-url-loader": "^4.0.0-alpha.1",
+    "file-loader": "^6.0.0",
+    "extract-loader": "^5.0.1",
+    "html-loader": "^1.1.0",
+    "sass-loader": "^8.0.2",
+    "postcss-loader": "^3.0.0",
+    "pug-html-loader": "^1.1.5",
+    "@guillaumejchauveau/babel-preset-web-app": "^1.2.1"
   },
   "publishConfig": {
     "access": "public"
@@ -31,7 +41,6 @@
     "entry": {
       "app": [
         "js/index.js",
-        "css/common.scss",
         "index.pug"
       ]
     }

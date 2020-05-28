@@ -12,15 +12,16 @@
   },
   "dependencies": {
     "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.3",
-    "extract-loader": "^3.1.0",
-    "file-loader": "^4.2.0",
-    "html-assets-injection-webpack-plugin": "^1.2.1",
-    "html-loader": "^0.5.5"
+    "extract-loader": "^5.0.1",
+    "file-loader": "^6.0.0",
+    "html-assets-injection-webpack-plugin": "^1.2.2",
+    "html-loader": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1",
-    "@types/webpack": "^4.32.1",
-    "typescript": "^3.5.3"
+    "@types/webpack-dev-server": "^3.10.1",
+    "@types/node": "^13.13.4",
+    "@types/webpack": "^4.41.12",
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "access": "public"

@@ -11,14 +11,14 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.9.6",
     "@guillaumejchauveau/wdb-core": "^5.0.0-alpha.3",
-    "babel-loader": "^8.0.6"
+    "babel-loader": "^8.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1",
-    "@types/webpack": "^4.32.1",
-    "typescript": "^3.5.3"
+    "@types/node": "^13.13.4",
+    "@types/webpack": "^4.41.12",
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "access": "public"

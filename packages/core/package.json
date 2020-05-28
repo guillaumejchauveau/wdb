@@ -11,12 +11,13 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "comfygurator": "^1.0.0-alpha.9"
+    "comfygurator": "^1.0.0-alpha.10"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1",
-    "@types/webpack": "^4.32.1",
-    "typescript": "^3.5.3"
+    "@types/node": "^13.13.4",
+    "@types/webpack": "^4.41.12",
+    "@types/webpack-dev-server": "^3.10.1",
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "access": "public"

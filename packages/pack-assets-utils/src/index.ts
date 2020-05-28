@@ -12,7 +12,7 @@ const pack: Pack = generator => {
   generator.options.addProperty(new Property('paths.assets.output'))
   generator.options.addProperty(new Property('paths.assets.publicPath'))
   generator.options.addProperty(new Property('paths.assets.embeddedMaxSize'))
-  generator.addModuleRulePatcher('IMG', new ComputedValue(c => {
+  generator.addModuleRulePatcher('ASSETS', new ComputedValue(c => {
     return {
       test: new RegExp(extensionsAsRegex(c.options.paths.assets.extensions)),
       loader: 'url-loader',

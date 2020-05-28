@@ -2,8 +2,8 @@
 
 import {
   ConfigurationGenerator,
-  Pack,
-  MODES
+  MODES,
+  Pack
 } from '@guillaumejchauveau/wdb-core'
 import basePack from './pack-base'
 import readPkg from 'read-pkg'
@@ -11,7 +11,7 @@ import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import rimraf from 'rimraf'
 
-import cosmiconfig from 'cosmiconfig'
+import { cosmiconfigSync } from 'cosmiconfig'
 import yargs from 'yargs'
 
 const MODULE_NAME = 'wdb'
@@ -20,7 +20,7 @@ function createConfigurationGenerator (mode: MODES): ConfigurationGenerator {
   const generator = new ConfigurationGenerator(mode)
   basePack(generator)
   let packNames = Object.getOwnPropertyNames(<any>readPkg.sync().devDependencies)
-    .filter(packageName => packageName.match(/^@.*\/wdb-pack-.*$/))
+    .filter(packageName => packageName.match(/^(@.*\/)?wdb-pack-.*$/))
 
   for (const packName of packNames) {
     const packPath = require.resolve(
@@ -33,8 +33,8 @@ function createConfigurationGenerator (mode: MODES): ConfigurationGenerator {
     pack(generator)
   }
 
-  const optionsExplorer = cosmiconfig(MODULE_NAME)
-  const result = optionsExplorer.searchSync()
+  const optionsExplorer = cosmiconfigSync(MODULE_NAME)
+  const result = optionsExplorer.search()
   if (!result) {
     throw new Error('No configuration provided for WDB')
   }
@@ -82,13 +82,15 @@ yargs.scriptName(MODULE_NAME)
   .usage('Usage: $0 <command> [options]')
   .command('build', 'Builds the project in production mode', yargs => yargs,
     () => {
-      const webpackConfiguration = createConfigurationGenerator(MODES.DEV).compileConfiguration()
+      const webpackConfiguration = createConfigurationGenerator(MODES.PROD).compileConfiguration()
       const compiler = webpack(webpackConfiguration)
       compiler.run((err, stats) => {
         if (err) {
           throw err
         }
         process.stdout.write(stats.toString(statsOptions) + '\n')
+        // @ts-ignore Webpack 5
+        compiler.close(() => null)
       })
     }
   )
@@ -97,16 +99,15 @@ yargs.scriptName(MODULE_NAME)
       const webpackConfigurator = createConfigurationGenerator(MODES.DEV)
       const options = webpackConfigurator.getComputedOptions()
       const webpackConfiguration = webpackConfigurator.compileConfiguration()
-      const compiler = webpack(webpackConfiguration)
-      const server = new WebpackDevServer(compiler, {
+
+      const devServerOptions = {
         contentBase: options.paths.output.path,
         hot: true,
-        historyApiFallback: true,
-        quiet: false,
-        noInfo: false,
-        //publicPath: options.paths.output.publicPath,
-        stats: statsOptions
-      })
+        logLevel: 'silent'
+      }
+      const compiler = webpack(webpackConfiguration)
+      const server = new WebpackDevServer(compiler, devServerOptions)
+      webpackConfigurator.devServer = server
 
       server.listen(8080, 'localhost')
     }

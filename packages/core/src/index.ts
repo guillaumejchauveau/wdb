@@ -13,6 +13,7 @@ import path from 'path'
 import { extensionsAsRegex } from './utils'
 import { StringTemplateContext } from 'comfygurator/lib/StringTemplateValue'
 import { Tapable } from 'tapable'
+import WebpackDevServer from 'webpack-dev-server'
 
 export type Pack = (generator: ConfigurationGenerator) => void
 
@@ -77,8 +78,7 @@ interface CoreOptions {
     }
   },
   webpack: {
-    target?: string,
-    sourceMaps: boolean
+    target?: string
   },
   entry: {
     [chunkName: string]: string[]
@@ -102,6 +102,7 @@ export class ConfigurationGenerator {
   }
   readonly options: Schema
   readonly mode: MODES
+  devServer: WebpackDevServer | undefined
 
   constructor (mode: MODES) {
     this.mode = mode
@@ -133,9 +134,6 @@ export class ConfigurationGenerator {
       {
         key: 'webpack.target',
         required: false // TODO
-      },
-      {
-        key: 'webpack.sourceMaps'
       },
       {
         key: 'entry',
@@ -240,7 +238,7 @@ export class ConfigurationGenerator {
 
     const config: Configuration = {
       context: context.root,
-      target: <any>options.webpack.target, // TODO: ?
+      //target: <any>options.webpack.target, // TODO: ?
       mode: context.mode,
       entry: undefined,
       output: {
@@ -254,9 +252,13 @@ export class ConfigurationGenerator {
       plugins: [],
       optimization: {
         minimizer: [],
-        noEmitOnErrors: context.mode === MODES.DEV
+        noEmitOnErrors: context.mode === MODES.DEV,
+        //removeEmptyChunks: true
       },
-      devtool: context.mode === MODES.DEV ? 'eval-source-map' : false
+      devtool: context.mode === MODES.DEV ? 'eval-source-map' : false,
+      watchOptions: {
+        ignored: [options.paths.output.path, 'node_modules']
+      }
     }
 
     const entry: Entry = {}

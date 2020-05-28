@@ -9,7 +9,6 @@ import {
 import { RuleSetUseItem } from 'webpack'
 
 import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
-import ExtractCssChunkWebpackPlugin from 'extract-css-chunks-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 export const CSS_SYNTAX = 'css'
@@ -21,7 +20,12 @@ const pack: Pack = generator => {
   generator.addSyntaxLoaderPatcher(
     CSS_SYNTAX,
     new ComputedValue(c => [
-      MiniCssExtractPlugin.loader,
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          hmr: true
+        }
+      },
       {
         loader: 'css-loader',
         options: {

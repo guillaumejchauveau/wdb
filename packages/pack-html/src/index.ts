@@ -1,10 +1,13 @@
 import {
-  Pack,
   ComputedValue,
-  Property,
+  MODES,
   Options,
-  MODES
+  Pack,
+  Property
 } from '@guillaumejchauveau/wdb-core'
+import { extensionsAsRegex } from '@guillaumejchauveau/wdb-core/lib/utils'
+
+import { Compiler } from 'webpack'
 
 import HTMLAssetsInjectionPlugin from 'html-assets-injection-webpack-plugin'
 
@@ -42,6 +45,25 @@ const pack: Pack = generator => {
   )
   generator.addPluginPatcher('HTMLAssetsInjectionPlugin', new ComputedValue(c => {
     return new HTMLAssetsInjectionPlugin()
+  }))
+  // For whatever reason webpack recompiles HTML files even if they are not changed, causing a reload.
+  generator.addPluginPatcher('HTMLReload', new ComputedValue(c => {
+    const htmlMatcher = new RegExp(extensionsAsRegex(c.options.syntaxes[HTML_SYNTAX].extensions))
+    if (c.context.mode === MODES.DEV) {
+      return {
+        apply (compiler: Compiler) {
+          compiler.hooks.afterEmit.tap('HMRHTMLReload', compilation => {
+            for (const assetName of Object.getOwnPropertyNames(compilation.assets)) {
+              if (assetName.match(htmlMatcher) &&
+                compilation.assets[assetName].emitted) {
+                // @ts-ignore
+                generator.devServer.sockWrite(generator.devServer.sockets, 'content-changed')
+              }
+            }
+          })
+        }
+      }
+    }
   }))
 }
 
